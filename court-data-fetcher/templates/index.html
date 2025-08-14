@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Court Data Fetcher - Delhi High Court</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-balance-scale logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>Court Data Fetcher</h1>
+                        <p class="court-name">Delhi High Court Portal</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    {% if stats %}
+                    <div class="stat-item">
+                        <span class="stat-number">{{ stats.total_queries or 0 }}</span>
+                        <span class="stat-label">Total Queries</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ "%.1f"|format(stats.success_rate or 0) }}%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2><i class="fas fa-search"></i> Case Information Retrieval System</h2>
+                    <p class="hero-subtitle">Access case details, party information, and court orders from Delhi High Court records</p>
+                </div>
+            </section>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            {% if category == 'error' %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fas fa-exclamation-triangle"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
+                            {{ message }}
+                            <button class="flash-close" onclick="this.parentElement.style.display='none'">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Main Form Section -->
+            <section class="form-section">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h3><i class="fas fa-file-alt"></i> Case Search Form</h3>
+                        <p>Enter the case details to retrieve information from court records</p>
+                    </div>
+                    
+                    <form action="/search" method="POST" class="case-form" id="caseForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="case_type">
+                                    <i class="fas fa-list"></i> Case Type
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="select-wrapper">
+                                    <select name="case_type" id="case_type" required>
+                                        <option value="">-- Select Case Type --</option>
+                                        {% for type_code, type_name in case_types %}
+                                            <option value="{{ type_code }}" title="{{ type_name }}">
+                                                {{ type_code }} - {{ type_name }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <i class="fas fa-chevron-down select-arrow"></i>
+                                </div>
+                                <small class="help-text">Choose the appropriate case type from the dropdown</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="case_number">
+                                    <i class="fas fa-hashtag"></i> Case Number
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="case_number" 
+                                       name="case_number" 
+                                       placeholder="e.g., 11199" 
+                                       pattern="[0-9]+" 
+                                       title="Case number should contain only digits"
+                                       required>
+                                <small class="help-text">Enter the numerical case number (digits only)</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="case_year">
+                                    <i class="fas fa-calendar"></i> Case Year
+                                    <span class="required">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="case_year" 
+                                       name="case_year" 
+                                       placeholder="e.g., 2025"
+                                       pattern="[0-9]{4}"
+                                       min="1947"
+                                       title="Enter a valid 4-digit year"
+                                       required>
+                                <small class="help-text">Enter the year when the case was filed (YYYY format)</small>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                <i class="fas fa-search"></i>
+                                <span class="btn-text">Fetch Case Data</span>
+                                <div class="btn-loader" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </div>
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i> Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Instructions Section -->
+            <section class="instructions-section">
+                <div class="instructions-container">
+                    <div class="instructions-header">
+                        <h3><i class="fas fa-info-circle"></i> How to Use This System</h3>
+                    </div>
+                    <div class="instructions-grid">
+                        <div class="instruction-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Fill Case Details</h4>
+                                <p>Select the case type, enter the case number and year in the form above</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Submit Search</h4>
+                                <p>Click "Fetch Case Data" button to initiate the search process</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Browser Window Opens</h4>
+                                <p>A new browser window will open showing the court website</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Solve CAPTCHA</h4>
+                                <p><strong>Important:</strong> You must solve the CAPTCHA and click "Search" button manually</p>
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>View Results</h4>
+                                <p>The system will automatically fetch and display the case information</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="important-notice">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div class="notice-content">
+                            <strong>Important Notice:</strong>
+                            <p>This system requires manual CAPTCHA solving to comply with court website security measures. The process ensures authentic access to public court records.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Queries Section -->
+            {% if recent_queries %}
+            <section class="recent-section">
+                <div class="recent-container">
+                    <h3><i class="fas fa-history"></i> Recent Queries</h3>
+                    <div class="recent-grid">
+                        {% for query in recent_queries[:6] %}
+                        <div class="recent-item">
+                            <div class="recent-header">
+                                <span class="case-info">{{ query.case_type }} {{ query.case_number }}/{{ query.case_year }}</span>
+                                <span class="status-badge {% if query.was_successful %}status-success{% else %}status-error{% endif %}">
+                                    {% if query.was_successful %}
+                                        <i class="fas fa-check"></i> Success
+                                    {% else %}
+                                        <i class="fas fa-times"></i> Failed
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="recent-meta">
+                                <span class="recent-date">
+                                    <i class="fas fa-clock"></i>
+                                    {{ query.timestamp|datetime }}
+                                </span>
+                                {% if query.was_successful %}
+                                <a href="/case/{{ query.id }}" class="view-link">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Court Data Fetcher</h4>
+                    <p>Automated case information retrieval system for Delhi High Court</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/api/stats">API Stats</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>System Status</h4>
+                    <div class="status-indicator online">
+                        <i class="fas fa-circle"></i> System Online
+                    </div>
+                    <p>Database: Connected</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Court Data Fetcher. Educational project for legal research purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Form validation and UX enhancements
+        document.getElementById('caseForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            
+            // Add visual feedback
+            submitBtn.classList.add('loading');
+            
+            // Show browser window notice
+            setTimeout(() => {
+                const notice = document.createElement('div');
+                notice.className = 'flash flash-info auto-notice';
+                notice.innerHTML = `
+                    <i class="fas fa-info-circle"></i>
+                    Browser window opening... Please solve the CAPTCHA when it appears.
+                    <button class="flash-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                const flashContainer = document.querySelector('.flash-messages');
+                if (flashContainer) {
+                    flashContainer.appendChild(notice);
+                } else {
+                    const newContainer = document.createElement('div');
+                    newContainer.className = 'flash-messages';
+                    newContainer.appendChild(notice);
+                    document.querySelector('.form-section').insertAdjacentElement('beforebegin', newContainer);
+                }
+            }, 1000);
+        });
+
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash:not(.flash-error)');
+            flashMessages.forEach(msg => {
+                setTimeout(() => {
+                    if (msg.parentElement) {
+                        msg.style.opacity = '0';
+                        setTimeout(() => msg.remove(), 300);
+                    }
+                }, 5000);
+            });
+        });
+
+        // Enhanced form validation
+        document.getElementById('case_number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById('case_year').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 4) {
+                this.value = this.value.slice(0, 4);
+            }
+        });
+
+        // Set current year limits
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearInput = document.getElementById('case_year');
+            const currentYear = new Date().getFullYear();
+            yearInput.max = currentYear + 1;
+        });
+    </script>
+</body>
+</html>

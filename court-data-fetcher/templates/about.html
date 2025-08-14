@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Court Data Fetcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-balance-scale logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>Court Data Fetcher</h1>
+                        <p class="court-name">Delhi High Court Portal</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search Cases
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Hero Section -->
+            <section class="about-hero-section">
+                <div class="hero-content">
+                    <h1><i class="fas fa-info-circle"></i> About Court Data Fetcher</h1>
+                    <p class="hero-subtitle">Automated case information retrieval system for Delhi High Court public records</p>
+                </div>
+            </section>
+
+            <!-- Overview Section -->
+            <section class="overview-section">
+                <div class="overview-container">
+                    <div class="overview-grid">
+                        <div class="overview-content">
+                            <h2><i class="fas fa-bullseye"></i> Project Overview</h2>
+                            <p class="lead-text">
+                                Court Data Fetcher is an intelligent web application designed to streamline access to Delhi High Court case information. 
+                                Built as an educational project, it demonstrates modern web scraping techniques, database management, and user-friendly interface design.
+                            </p>
+                            <p>
+                                This system automates the traditionally manual process of searching court records, providing researchers, legal professionals, 
+                                and citizens with quick access to case details, party information, and court orders.
+                            </p>
+                        </div>
+                        <div class="overview-stats">
+                            <div class="stat-card">
+                                <i class="fas fa-database"></i>
+                                <h3>Database Driven</h3>
+                                <p>SQLite database stores queries and results for efficient retrieval</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-robot"></i>
+                                <h3>Automated</h3>
+                                <p>Playwright-powered scraping with intelligent data extraction</p>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-shield-alt"></i>
+                                <h3>Secure</h3>
+                                <p>Respects CAPTCHA requirements and court website policies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <div class="features-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-star"></i> Key Features
+                    </h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h3>Smart Case Search</h3>
+                            <p>Search Delhi High Court cases by type, number, and year with intelligent form validation and suggestions.</p>
+                            <ul class="feature-list">
+                                <li>25+ case types supported (W.P.(C), CRL.A., etc.)</li>
+                                <li>Real-time input validation</li>
+                                <li>Smart error handling</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <h3>Automated Data Extraction</h3>
+                            <p>Automatically retrieves and parses case information including party names, dates, and court orders.</p>
+                            <ul class="feature-list">
+                                <li>Petitioner & Respondent details</li>
+                                <li>Filing and hearing dates</li>
+                                <li>Court orders and judgments</li>
+                                <li>PDF download links</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>Intelligent Caching</h3>
+                            <p>Stores previously searched cases in local database for instant retrieval and reduced server load.</p>
+                            <ul class="feature-list">
+                                <li>SQLite database storage</li>
+                                <li>Query history tracking</li>
+                                <li>Duplicate detection</li>
+                                <li>Performance analytics</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Responsive Design</h3>
+                            <p>Modern, mobile-friendly interface that works seamlessly across all devices and screen sizes.</p>
+                            <ul class="feature-list">
+                                <li>Mobile-first design</li>
+                                <li>Touch-friendly controls</li>
+                                <li>Fast loading times</li>
+                                <li>Accessibility compliant</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <h3>Data Export</h3>
+                            <p>Export case information in multiple formats for further analysis or record-keeping purposes.</p>
+                            <ul class="feature-list">
+                                <li>JSON data export</li>
+                                <li>Print-friendly formatting</li>
+                                <li>Shareable permalinks</li>
+                                <li>PDF generation ready</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Analytics Dashboard</h3>
+                            <p>Real-time statistics and insights about system usage, success rates, and popular case types.</p>
+                            <ul class="feature-list">
+                                <li>Success rate tracking</li>
+                                <li>Query statistics</li>
+                                <li>Recent searches display</li>
+                                <li>Performance metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology Stack Section -->
+            <section class="tech-section">
+                <div class="tech-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i> Technology Stack
+                    </h2>
+                    
+                    <div class="tech-grid">
+                        <div class="tech-category">
+                            <h3><i class="fas fa-server"></i> Backend</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <i class="fab fa-python"></i>
+                                    <span>Python 3.8+</span>
+                                    <small>Core programming language</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Flask</span>
+                                    <small>Web framework</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-robot"></i>
+                                    <span>Playwright</span>
+                                    <small>Web scraping automation</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-soup"></i>
+                                    <span>BeautifulSoup</span>
+                                    <small>HTML parsing</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3><i class="fas fa-database"></i> Database</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>SQLite</span>
+                                    <small>Lightweight database</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-table"></i>
+                                    <span>SQL</span>
+                                    <small>Query language</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-archive"></i>
+                                    <span>JSON Storage</span>
+                                    <small>Structured data format</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3><i class="fas fa-palette"></i> Frontend</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <i class="fab fa-html5"></i>
+                                    <span>HTML5</span>
+                                    <small>Markup language</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-css3-alt"></i>
+                                    <span>CSS3</span>
+                                    <small>Styling and layout</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fab fa-js"></i>
+                                    <span>JavaScript</span>
+                                    <small>Interactive functionality</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>Responsive Design</span>
+                                    <small>Cross-device compatibility</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <h3><i class="fas fa-tools"></i> Development</h3>
+                            <div class="tech-items">
+                                <div class="tech-item">
+                                    <i class="fab fa-git-alt"></i>
+                                    <span>Git</span>
+                                    <small>Version control</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-terminal"></i>
+                                    <span>CLI Tools</span>
+                                    <small>Command line interface</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-bug"></i>
+                                    <span>Debug Mode</span>
+                                    <small>Development debugging</small>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>Async/Await</span>
+                                    <small>Asynchronous processing</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="workflow-section">
+                <div class="workflow-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-cogs"></i> How It Works
+                    </h2>
+                    
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3><i class="fas fa-edit"></i> User Input</h3>
+                                <p>User enters case details (type, number, year) through the web interface with built-in validation.</p>
+                                <div class="step-details">
+                                    <ul>
+                                        <li>Form validation and sanitization</li>
+                                        <li>Case type dropdown selection</li>
+                                        <li>Real-time input checking</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3><i class="fas fa-search"></i> Database Check</h3>
+                                <p>System first checks local database for existing case information to avoid redundant scraping.</p>
+                                <div class="step-details">
+                                    <ul>
+                                        <li>Query duplicate detection</li>
+                                        <li>Cache hit optimization</li>
+                                        <li>Data freshness validation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3><i class="fas fa-robot"></i> Web Scraping</h3>
+                                <p>If not cached, Playwright browser automation navigates to Delhi High Court website and extracts case data.</p>
+                                <div class="step-details">
+                                    <ul>
+                                        <li>Automated browser control</li>
+                                        <li>Form filling and submission</li>
+                                        <li>CAPTCHA handling (manual)</li>
+                                        <li>Data extraction and parsing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3><i class="fas fa-database"></i> Data Storage</h3>
+                                <p>Extracted information is processed, validated, and stored in SQLite database for future reference.</p>
+                                <div class="step-details">
+                                    <ul>
+                                        <li>Data validation and cleaning</li>
+                                        <li>Structured storage format</li>
+                                        <li>Query logging and analytics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3><i class="fas fa-eye"></i> Results Display</h3>
+                                <p>Processed case information is presented in a user-friendly format with export and sharing options.</p>
+                                <div class="step-details">
+                                    <ul>
+                                        <li>Formatted case details</li>
+                                        <li>PDF download links</li>
+                                        <li>Export functionality</li>
+                                        <li>Print-friendly layout</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Legal and Compliance Section -->
+            <section class="legal-section">
+                <div class="legal-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-gavel"></i> Legal Compliance & Ethics
+                    </h2>
+                    
+                    <div class="legal-grid">
+                        <div class="legal-card">
+                            <div class="legal-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h3>Public Records Access</h3>
+                            <p>This system only accesses publicly available court records as permitted under the Right to Information Act and court transparency initiatives.</p>
+                        </div>
+
+                        <div class="legal-card">
+                            <div class="legal-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h3>Privacy Protection</h3>
+                            <p>No personal data is collected beyond what's publicly available in court records. User searches are logged anonymously for system improvement.</p>
+                        </div>
+
+                        <div class="legal-card">
+                            <div class="legal-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Respectful Automation</h3>
+                            <p>The system respects website terms of service, implements rate limiting, and requires manual CAPTCHA solving to ensure compliance.</p>
+                        </div>
+
+                        <div class="legal-card">
+                            <div class="legal-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Educational Purpose</h3>
+                            <p>This project is developed for educational and research purposes to demonstrate modern web development and data extraction techniques.</p>
+                        </div>
+                    </div>
+
+                    <div class="disclaimer-box">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Important Disclaimer</h3>
+                        <p>
+                            <strong>This system is for informational purposes only.</strong> The information retrieved should not be considered as legal advice 
+                            or official court records. Users are advised to verify all information directly with the Delhi High Court registry. 
+                            The developers are not responsible for any decisions made based on the information provided by this system.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact and Support Section -->
+            <section class="contact-section">
+                <div class="contact-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-envelope"></i> Support & Development
+                    </h2>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h3><i class="fas fa-github"></i> Open Source</h3>
+                            <p>This project is open source and available for educational use and contribution.</p>
+                            <div class="contact-links">
+                                <a href="#" class="contact-link">
+                                    <i class="fab fa-github"></i> View on GitHub
+                                </a>
+                                <a href="#" class="contact-link">
+                                    <i class="fas fa-code"></i> Documentation
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <h3><i class="fas fa-bug"></i> Report Issues</h3>
+                            <p>Found a bug or have suggestions for improvement? We'd love to hear from you.</p>
+                            <div class="contact-links">
+                                <a href="#" class="contact-link">
+                                    <i class="fas fa-bug"></i> Report Bug
+                                </a>
+                                <a href="#" class="contact-link">
+                                    <i class="fas fa-lightbulb"></i> Suggest Feature
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <h3><i class="fas fa-graduation-cap"></i> Educational Use</h3>
+                            <p>This project serves as a learning resource for web development and automation techniques.</p>
+                            <div class="contact-links">
+                                <a href="#" class="contact-link">
+                                    <i class="fas fa-book"></i> Learning Guide
+                                </a>
+                                <a href="#" class="contact-link">
+                                    <i class="fas fa-video"></i> Tutorial Videos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Status Section -->
+            <section class="status-section">
+                <div class="status-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-heartbeat"></i> System Status
+                    </h2>
+                    
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-indicator online">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Web Server</h3>
+                                <p>Flask application running normally</p>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-indicator online">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Database</h3>
+                                <p>SQLite database connected and responsive</p>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-indicator online">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Scraping Engine</h3>
+                                <p>Playwright automation service operational</p>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-indicator warning">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <div class="status-info">
+                                <h3>Court Website</h3>
+                                <p>Requires manual CAPTCHA solving</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions Section -->
+            <section class="quick-actions-section">
+                <div class="quick-actions-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-rocket"></i> Quick Actions
+                    </h2>
+                    
+                    <div class="action-buttons">
+                        <a href="/" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search Cases
+                        </a>
+                        <a href="/api/stats" class="btn btn-secondary" target="_blank">
+                            <i class="fas fa-chart-bar"></i> View Statistics
+                        </a>
+                        <a href="https://delhihighcourt.nic.in/" class="btn btn-outline" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Delhi High Court
+                        </a>
+                        <button onclick="window.print()" class="btn btn-outline">
+                            <i class="fas fa-print"></i> Print This Page
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Court Data Fetcher</h4>
+                    <p>Educational project demonstrating automated court record retrieval from Delhi High Court public databases.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/api/stats">API Documentation</a></li>
+                        <li><a href="https://delhihighcourt.nic.in/" target="_blank">Delhi High Court</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li>Python & Flask</li>
+                        <li>Playwright Automation</li>
+                        <li>SQLite Database</li>
+                        <li>Responsive Design</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li>Educational Use Only</li>
+                        <li>Public Records Access</li>
+                        <li>Privacy Compliant</li>
+                        <li>Open Source License</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Court Data Fetcher. Educational project for legal research and web development demonstration purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactive Elements -->
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate statistics on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all stat cards and feature cards
+        document.querySelectorAll('.stat-card, .feature-card, .tech-category, .workflow-step').forEach(el => {
+            observer.observe(el);
+        });
+
+        // System status live updates (simulation)
+        function updateSystemStatus() {
+            const statusItems = document.querySelectorAll('.status-indicator');
+            statusItems.forEach(indicator => {
+                // Simulate occasional status changes for demo
+                if (Math.random() > 0.95) {
+                    indicator.classList.toggle('warning');
+                    setTimeout(() => {
+                        indicator.classList.remove('warning');
+                        indicator.classList.add('online');
+                    }, 2000);
+                }
+            });
+        }
+
+        // Update status every 30 seconds
+        setInterval(updateSystemStatus, 30000);
+
+        // Add loading animation to external links
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            link.addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                setTimeout(() => {
+                    this.innerHTML = this.dataset.originalText || 'Opening...';
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

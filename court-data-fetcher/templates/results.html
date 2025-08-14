@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Results - Court Data Fetcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-balance-scale logo-icon"></i>
+                    <div class="logo-text">
+                        <h1>Court Data Fetcher</h1>
+                        <p class="court-name">Delhi High Court Portal</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="/" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> New Search
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Case Header Section -->
+            <section class="case-header-section">
+                <div class="case-header-container">
+                    <div class="case-title">
+                        <h1><i class="fas fa-gavel"></i> Case Details</h1>
+                    </div>
+                </div>
+            </section>
+
+            {% if data %}
+            <!-- Case Information Section -->
+            <section class="case-info-section">
+                <div class="case-info-container">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i> Case Information
+                    </h2>
+                    
+                    <div class="results-grid">
+                        <!-- Petitioner Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-user"></i>
+                                <h3>Petitioner(s)</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="party-name">{{ data.petitioner or 'Not found' }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Respondent Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-users"></i>
+                                <h3>Respondent(s)</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="party-name">{{ data.respondent or 'Not found' }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Filing Date Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-calendar-plus"></i>
+                                <h3>Filing Date</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="date-info">{{ data.filing_date or 'Not found' }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Next Hearing Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-calendar-day"></i>
+                                <h3>Next Hearing</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="date-info">{{ data.next_hearing_date or 'Not found' }}</p>
+                            </div>
+                        </div>
+
+                        {% if data.case_status %}
+                        <!-- Case Status Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-info"></i>
+                                <h3>Case Status</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="status-info">{{ data.case_status }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if data.court_number %}
+                        <!-- Court Number Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-building"></i>
+                                <h3>Court Number</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="court-info">Court No. {{ data.court_number }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if data.last_hearing_date %}
+                        <!-- Last Hearing Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <i class="fas fa-calendar-check"></i>
+                                <h3>Last Hearing</h3>
+                            </div>
+                            <div class="card-content">
+                                <p class="date-info">{{ data.last_hearing_date }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section class="orders-section">
+                <div class="orders-container">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-file-alt"></i> Orders & Judgments
+                        </h2>
+                    </div>
+
+                    {% if data.orders %}
+                    <div class="orders-table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in data.orders %}
+                                <tr>
+                                    <td>{{ order.date or 'Not specified' }}</td>
+                                    <td>{{ order.description or 'No description' }}</td>
+                                    <td>
+                                        {% if order.pdf_link and order.pdf_link != 'N/A' %}
+                                            <a href="{{ order.pdf_link }}" target="_blank" class="btn-download">
+                                                <i class="fas fa-file-pdf"></i> PDF
+                                            </a>
+                                        {% else %}
+                                            <span class="not-available">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="no-orders-container">
+                        <div class="no-orders-content">
+                            <i class="fas fa-folder-open"></i>
+                            <h3>No Orders Found</h3>
+                            <p>No orders or judgments were found for this case.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="actions-section">
+                <div class="actions-container">
+                    <div class="action-buttons">
+                        <a href="/" class="btn btn-primary">
+                            <i class="fas fa-search"></i> New Search
+                        </a>
+                        <button onclick="window.print()" class="btn btn-secondary">
+                            <i class="fas fa-print"></i> Print Results
+                        </button>
+                        <button onclick="exportData()" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            {% else %}
+            <!-- No Data Section -->
+            <section class="no-data-section">
+                <div class="no-data-container">
+                    <div class="no-data-content">
+                        <i class="fas fa-search-minus"></i>
+                        <h2>No Case Data Found</h2>
+                        <p>We couldn't retrieve any information for the requested case.</p>
+                        
+                        <div class="error-details">
+                            <h3>Possible reasons:</h3>
+                            <ul>
+                                <li>Case number, type, or year might be incorrect</li>
+                                <li>Case might not exist in court records</li>
+                                <li>CAPTCHA wasn't solved correctly</li>
+                                <li>Temporary website issues</li>
+                            </ul>
+                        </div>
+
+                        <div class="suggested-actions">
+                            <div class="action-cards">
+                                <div class="action-card">
+                                    <i class="fas fa-redo"></i>
+                                    <h4>Try Again</h4>
+                                    <p>Double-check case details and search again</p>
+                                    <a href="/" class="btn btn-primary">New Search</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Court Data Fetcher</h4>
+                    <p>Data retrieved from Delhi High Court public records</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">New Search</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Court Data Fetcher. Educational project for legal research purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+<!-- Pass data to JavaScript safely -->
+{% if data %}
+<script id="case-data" type="application/json">
+{{ data|tojson|safe }}
+</script>
+{% endif %}
+
+<script>
+    function exportData() {
+        var caseData = {};
+        
+        // Get data from the script tag instead of mixing with template
+        var dataScript = document.getElementById('case-data');
+        if (dataScript) {
+            try {
+                var rawData = JSON.parse(dataScript.textContent);
+                
+                // Build export object safely
+                caseData = {
+                    petitioner: rawData.petitioner || 'Not found',
+                    respondent: rawData.respondent || 'Not found',
+                    filing_date: rawData.filing_date || 'Not found',
+                    next_hearing_date: rawData.next_hearing_date || 'Not found',
+                    case_status: rawData.case_status || null,
+                    court_number: rawData.court_number || null,
+                    last_hearing_date: rawData.last_hearing_date || null,
+                    orders: rawData.orders || [],
+                    exported_at: new Date().toISOString()
+                };
+            } catch (e) {
+                console.error('Data parsing error:', e);
+                caseData = {
+                    error: 'Could not parse case data',
+                    exported_at: new Date().toISOString()
+                };
+            }
+        } else {
+            caseData = {
+                message: 'No case data available',
+                exported_at: new Date().toISOString()
+            };
+        }
+
+        // Export the data
+        var dataStr = JSON.stringify(caseData, null, 2);
+        var dataBlob = new Blob([dataStr], {type: 'application/json'});
+        var url = URL.createObjectURL(dataBlob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'case_data.json';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        console.log('Export completed');
+    }
+
+    // Print functionality
+    window.addEventListener('beforeprint', function() {
+        document.body.classList.add('print-mode');
+    });
+
+    window.addEventListener('afterprint', function() {
+        document.body.classList.remove('print-mode');
+    });
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Results page loaded');
+    });
+</script>
+
+
+
+</body>
+</html>
